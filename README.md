@@ -190,7 +190,7 @@ Each physical node gets **100 virtual nodes** placed uniformly on the ring. A ke
 stateDiagram-v2
     [*] --> Closed
 
-    Closed --> Open : Failure rate > 50% (window: 10 calls)
+    Closed --> Open : Failure rate exceeds 50% (window: 10 calls)
     Open --> HalfOpen : Wait 1 second
     HalfOpen --> Closed : 2 consecutive successes
     HalfOpen --> Open : Any failure
