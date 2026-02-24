@@ -80,10 +80,10 @@ flowchart TD
 ```mermaid
 classDiagram
     class CacheController {
-        +GET /api/cache/{key}
-        +POST /api/cache/{key}
-        +POST /api/cache/batch
-        +DELETE /api/cache/{key}
+        +getValue(key) ResponseEntity
+        +setValue(key, value, ttlSeconds) ResponseEntity
+        +batchSetValues(keyValues, ttlSeconds) ResponseEntity
+        +deleteValue(key) ResponseEntity
     }
 
     class DistributedCacheService {
