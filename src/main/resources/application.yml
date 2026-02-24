@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  redis:
+    cluster:
+      nodes: ${REDIS_CLUSTER_NODES:localhost:6379}
+    password: ${REDIS_PASSWORD:}
+    timeout: 2000
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 2
+        max-wait: -1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    export:
+      cloudwatch:
+        namespace: CacheService
+        enabled: true
+        region: ${AWS_REGION:us-east-1}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 1000ms
+        permitted-number-of-calls-in-half-open-state: 2
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+  retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 100ms 
