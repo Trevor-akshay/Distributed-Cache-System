@@ -187,13 +187,18 @@ Each physical node gets **100 virtual nodes** placed uniformly on the ring. A ke
 ### Circuit Breaker State Machine
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Closed
+flowchart LR
+    START(( )) --> Closed
 
-    Closed --> Open : Failure rate exceeds 50% (window: 10 calls)
-    Open --> HalfOpen : Wait 1 second
-    HalfOpen --> Closed : 2 consecutive successes
-    HalfOpen --> Open : Any failure
+    Closed -->|"Failure rate exceeds 50%\nsliding window: 10 calls"| Open
+    Open -->|"Wait 1 second"| HalfOpen
+    HalfOpen -->|"2 consecutive successes"| Closed
+    HalfOpen -->|"Any failure"| Open
+
+    style Closed  fill:#2d6a4f,color:#fff,stroke:#1b4332
+    style Open    fill:#d62828,color:#fff,stroke:#9d0208
+    style HalfOpen fill:#f4a261,color:#000,stroke:#e76f51
+    style START   fill:#ccc,stroke:#999
 ```
 
 ---
